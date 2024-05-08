@@ -49,7 +49,17 @@ RUN   openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/ng
 #---------------------------------------------------------------#
 
 #creer un dossier qui nous permettra de stocker les fichiers de config de nginx:
-
-RUN mkdir -p /var/run/nginx
+# ??? why ??
+RUN mkdir -p /var/run/nginx 
 #-p ???
 COPY conf/nginx.conf /etc/nginx/nginx.conf
+
+
+# j ai pas compris >>?!
+# (notre root principal)
+RUN chmod 755 /var/www/html 
+# (l’utilisateur principal)
+# RUN chown -R www-data:www-data /var/www/html 
+
+CMD [ "nginx", "-g", "daemon off;" ]
+#cela lancera NGINX en premier plan pour que le container ne se stop pas.
