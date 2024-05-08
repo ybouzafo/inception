@@ -1,17 +1,17 @@
 FROM debian:buster
 
-RUN apt update
-RUN apt upgrade
-RUN apt install nginx -y 
+RUN apt-get update
+RUN apt-get upgrade
+RUN apt-get install nginx -y 
 
-RUN apt install vim -y
-RUN apt install cutl -y 
+RUN apt-get install vim -y
+RUN apt-get install cutl -y 
 #curl >?
 
 
 # installation de l'outil principal pour la gestion/creatin de certificat ssl, openssl;
 
-RUN apt install OpenSSL -y
+RUN apt-get install OpenSSL -y
 #read more about ssl
 
 #creation de dossier qui nous permetra de stocker le certificat et la clef (TLS)
