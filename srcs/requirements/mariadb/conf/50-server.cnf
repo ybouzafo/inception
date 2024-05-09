@@ -1,0 +1,23 @@
+		
+# [mysqld]
+# datadir = /var/lib/mysql
+# #dossier qui va stocker notre base de donnee
+# socket  = /var/run/mysqld/mysqld.sock
+
+# bind_address=*
+# # tous ls ip du reseau peuvent se connecter
+# port = 3306
+# user = mysql
+
+
+# # [mysqld]
+# # character-set-server=utf8mb4
+# # collation-server=utf8mb4_unicode_ci
+
+
+[mysqld]
+	datadir = /var/lib/mysql
+	# socket  = /run/mysqld/mysqld.sock
+	bind_address=*
+	port = 3306
+	user = mysql

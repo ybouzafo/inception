@@ -1,0 +1,99 @@
+
+
+# server {
+# 	listen 443 ssl;											# Depuis la version 1.12 de NGINX, il faut préciser ssl.
+#     server_name ybouzafo.42.fr # a changer il faut pas qu;il reside ici 
+# 	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;				#Gardons TLSv1.2 & TLSv1.3
+# 	ssl_certificate /etc/nginx/ssl/bundle.crt;			# Indiquons notre certificat
+# 	ssl_certificate_key /etc/nginx/ssl/private.key;		# et notre clef
+# }
+#     #attention server_name . certificate et cles ne doivent pas resider ici
+
+#     #precise  le dossier d'acceuil , c est le dossier ou se trouve wordpress , et donc sa premiere page a afficher
+
+#     #Je vais également préciser quelle page afficher en premier, dans le cadre de WordPress il faut indiquer index.php, 
+#     #mais je vais également en ajouter d’autres qui me semblent importantes.Je vais également préciser quelle page afficher en premier, dans le cadre de WordPress il faut indiquer index.php, mais je vais également en ajouter d’autres qui me semblent importantes.
+    
+#     location / {
+#         root /var/www/html
+#         index index.php index.html index.htm 
+#     }
+
+#     #location / : cette ligne indique que la configuration qui suit s'applique a toutes les requetes dont l'url commence avec  / 
+#     location / {
+# 					try_files $uri $uri/ =404;
+# 			}
+	
+#     # dans le default.conf de nginx;
+#     # location ~ \.php$ {
+#     #     root           html;
+#     #     fastcgi_pass   127.0.0.1:9000;
+#     #     fastcgi_index  index.php;
+#     #     fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+#     #     include        fastcgi_params;
+#     # }
+
+# 	location ~ \.php$ {								# Pour toutes les requetes php
+# 							include fastcgi_params;
+# 							# The include directive includes a file with FastCGI parameters.
+#                             fastcgi_pass wordpress:9000;				# Comment renvoyer les requetes php sur le port 9000
+#                             #The fastcgi_pass directive passes the request to a FastCGI server for processing.
+#                             # fastcgi_pass wordpress:9000;: Cette directive spécifie que les requêtes PHP doivent être transmises à un serveur FastCGI nommé "wordpress" sur le port 9000.
+#                             #  C'est ici que les scripts PHP seront réellement exécutés.
+#                             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+#                             #The fastcgi_param directive sets a FastCGI parameter. The SCRIPT_FILENAME parameter specifies the path to the PHP script that should be executed.
+
+#                         }
+# #----------------expkication -------------------------------------------					
+# #fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+# # document_root et fastcgi_script_name sont des variables prédéfinies dans Nginx qui sont utilisées pour construire le chemin d'accès au script PHP à exécuter.
+
+# #$document_root : cette variable represente le repertoire racine configure dans nginx pour le site web en cours de traitement : lorsque  Lorsque Nginx reçoit une requête, 
+# #il utilise cette variable pour determiner le repertoire a partir duquel il doit servir les fichiers demandes, par exemple si le le repertoire racine
+# # est defini sur /var/www/html  alors $document_root sera evalue a /var/www/html 
+
+# #$fastcgi_script_name : Cette variable représente le chemin du script PHP à partir de la racine du serveur.(root).
+# # Lorsque Nginx reçoit une requête pour un script PHP, il utilise cette variable pour déterminer l'emplacement exact du script PHP
+# # dans la structure des fichiers du serveur. Par exemple, si le script demandé est "/index.php", alors $fastcgi_script_name sera évalué à "/index.php".
+
+
+# #En combinant ces deux variables dans la directive fastcgi_param SCRIPT_FILENAME, Nginx  construit le chemin d'accès complet au script PHP à exécuter.
+# #Par exemple, si $document_root est "/var/www/html" et $fastcgi_script_name est "/index.php", alors $document_root$fastcgi_script_name sera évalué à 
+# # "/var/www/html/index.php", ce qui est le chemin d'accès complet au script PHP à exécuter.
+
+
+# #-----------------------------------------------------------------------------------
+
+# #faut installer php pour pouvoir gerer les requetes PHP de wordpress : 
+# #le sujet indique que php doit etre installer sur le container de wordpress et pas de nginx
+
+
+
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    server_name ybouzafo.42.fr;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+
+    ssl_certificate /etc/ssl/certs/nginx.crt;
+    ssl_certificate_key /etc/ssl/private/nginx.key;
+
+    root /var/www/wordpress;
+    index index.php;
+
+    location / {
+        autoindex off;
+        autoindex_format html;
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass wordpress:9000;
+    }
+
+}
