@@ -1,0 +1,66 @@
+Si votre script setup.sh rencontre des erreurs d'exécution (erreurs de syntaxe, problèmes de permissions ou échecs d'initialisation de la base de données), 
+Docker reDocker redémarrera le conteneur pour tenter un nouveau démarrage.démarrera le conteneur pour tenter un nouveau démarrage.
+
+
+#  service mariadb start;
+#  sleep 2
+
+# mysql -e "CREATE DATABASE IF NOT EXISTS \`${SQL_DATABASE}\`;"
+# mysql -e "CREATE USER IF NOT EXISTS \`${SQL_USER}\`@'localhost' IDENTIFIED BY '${SQL_PASSWORD}';"
+# mysql -e "GRANT ALL PRIVILEGES ON \`${SQL_DATABASE}\`.* TO \`${SQL_USER}\`@'%' IDENTIFIED BY '${SQL_PASSWORD}';"
+# mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${SQL_ROOT_PASSWORD}';"
+# mysql -e "FLUSH PRIVILEGES;"
+# mysqladmin -u root -p$SQL_ROOT_PASSWORD shutdown
+# exec mysqld_safe
+
+
+
+# # CREATE DATABASE IF NOT EXISTS wordpress;
+# # CREATE USER IF NOT EXISTS 'wordpressuser'@'%' IDENTIFIED BY '1234';
+# # GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpressuser'@'%';
+# # FLUSH PRIVILEGES;
+# !/bin/bash
+# service mariadb start 
+# sleep 1
+
+
+#   mariadb -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
+#   mariadb -e "CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';"
+#   mariadb -e "GRANT ALL PRIVILEGES ON \`$DB_NAME\`.* TO '$DB_USER'@'%';"
+#   mariadb -e "FLUSH PRIVILEGES;"
+#   mysqladmin -u root shutdown 
+  # le container s arrete automatiqument > pas besoin de shutdown.. 
+
+
+#!/bin/bash
+
+# Database and User Credentials (Replace with Environment Variables)
+
+# DB_NAME=mariadb
+# DB_HOST=maria
+# DB_USER=usra
+# DB_PASSWORD=12345
+# MYSQL_ROOT_PASSWORD=12345
+
+# service mysql start
+# sleep 1
+
+# mysql -u root -p"$MYSQL_ROOT_PASSWORD" << EOF
+# CREATE DATABASE IF NOT EXISTS $DB_NAME;
+# CREATE USER IF NOT EXISTS '$DB_USER'@'%' IDENTIFIED BY '$DB_PASSWORD';
+# GRANT ALL PRIVILEGES ON \`$DB_NAME\`.* TO '$DB_USER'@'%';
+# FLUSH PRIVILEGES;
+# EOF
+
+/*************************************************************************************************************/
+La commande service est un outil de gestion de services système dans les systèmes d'exploitation basés sur Unix, tels que Linux. Elle permet d'interagir avec les services qui s'exécutent en arrière-plan sur le système. Un service est un programme ou un processus qui s'exécute continuellement en arrière-plan et fournit des fonctionnalités spécifiques au système.
+
+Voici quelques utilisations courantes de la commande service :
+
+Démarrer un service : service nom_du_service start permet de démarrer un service qui est actuellement arrêté.
+Arrêter un service : service nom_du_service stop permet d'arrêter un service qui est actuellement en cours d'exécution.
+Redémarrer un service : service nom_du_service restart permet de redémarrer un service en arrêtant d'abord puis en le démarrant à nouveau.
+Vérifier le statut d'un service : service nom_du_service status permet de vérifier si un service est en cours d'exécution ou arrêté.
+La commande service est souvent utilisée dans les distributions Linux basées sur SysV init ou sur Systemd pour gérer les services système. Elle fournit une interface commune pour interagir avec les services, indépendamment du système d'initialisation utilisé.
+
+Dans votre cas, vous utilisez la commande service mariadb start dans votre script setup.sh pour démarrer le service MariaDB (une base de données MySQL améliorée). Cependant, dans un environnement Docker ou dans certains systèmes d'exploitation minimalistes, cette commande peut ne pas être disponible ou peut nécessiter une configuration spécifique.
