@@ -65,8 +65,7 @@
 # #cela lancera NGINX en premier plan pour que le container ne se stop pas.
 
 
-
- FROM debian:buster
+FROM debian:latest
 
 RUN apt-get update -q
 RUN apt-get install -y nginx openssl
@@ -76,7 +75,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -out /etc/ssl/certs/nginx.crt \
     -subj "/C=MA/ST=Benguerir/L=Benguerir/O=42/OU=1337/CN=ybouzafo.42.fr"
 
-COPY ./conf/default etc/nginx/sites-enabled/default
+COPY ./conf/default etc/nginx/sites-available/default
 
 EXPOSE 443
 
